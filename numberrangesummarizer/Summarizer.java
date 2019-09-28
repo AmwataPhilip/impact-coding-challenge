@@ -21,7 +21,7 @@ public class Summarizer implements NumberRangeSummarizer {
 
 	// get the summarized string
 	public String summarizeCollection(Collection<Integer> input) {
-		String summarisedResult = "";
+		StringBuilder summarisedResult = new StringBuilder();
 		Integer start = 0, end = 0, count = 0, other = 0;
 		List<Integer> inputList = new ArrayList<Integer>(input);
 		// loop through collection
@@ -39,15 +39,17 @@ public class Summarizer implements NumberRangeSummarizer {
 			}
 
 			if (count == 0) {
-				summarisedResult = end + ",";
+				summarisedResult.append(end + ",");
 			} else if (count != 0) {
-				summarisedResult = start + "-";
+				summarisedResult.append(start + "-");
 			} else {
-				summarisedResult = other + "";
+				summarisedResult.append(other + "");
 			}
 		}
 
-		return summarisedResult;
+		String stringResult = summarisedResult.toString();
+
+		return stringResult;
 	}
 
 	public static void main(String[] args) {

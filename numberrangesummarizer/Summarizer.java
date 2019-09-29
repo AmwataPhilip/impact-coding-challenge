@@ -9,8 +9,8 @@ import java.util.ArrayList;
 public class Summarizer implements NumberRangeSummarizer {
 
 	// collect the input
-	public List<Integer> collect(String input) {
-		List<Integer> intCollection = Collections.emptyList(); // using List for specialised functionality and order
+	public Collection<Integer> collect(String input) {
+		List<Integer> intCollection = new ArrayList<Integer>(); // using List for specialised functionality and order
 		String[] inputArray = input.split(","); // adding numbers to array using comma as delimeter
 		// convert each array element from string to int and add it to the collection
 		Arrays.stream(inputArray).forEach(str -> intCollection.add(Integer.parseInt(str)));
@@ -26,13 +26,13 @@ public class Summarizer implements NumberRangeSummarizer {
 		List<Integer> inputList = new ArrayList<Integer>(input);
 		// loop through collection
 		for (int i = 0; i < inputList.size(); i++) {
-			if (inputList.get(i + 1) - 1 == inputList.get(i)) {
+			if (i == inputList.size() - 1) {
+				other = inputList.get(i);
+			} else if (inputList.get(i + 1) - 1 == inputList.get(i)) {
 				if (count == 0) {
 					start = inputList.get(i);
 				}
 				count += 1;
-			} else if (i == inputList.size() - 1) {
-				other = inputList.get(i);
 			} else {
 				end = inputList.get(i);
 				count = 0;
@@ -53,7 +53,7 @@ public class Summarizer implements NumberRangeSummarizer {
 	}
 
 	public static void main(String[] args) {
-		String input = "", result = "";
+		String input = "1,3,6,7,8,12,13,14,15,21,22,23,24,31", result = "";
 		Summarizer summarizer = new Summarizer();
 		Collection<Integer> intCollection = summarizer.collect(input);
 		result = summarizer.summarizeCollection(intCollection);

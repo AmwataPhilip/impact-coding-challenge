@@ -22,12 +22,14 @@ public class Summarizer implements NumberRangeSummarizer {
 	// get the summarized string
 	public String summarizeCollection(Collection<Integer> input) {
 		StringBuilder summarisedResult = new StringBuilder();
-		Integer start = 0, end = 0, count = 0, other = 0;
+		Integer start = 0, end = 0, count = 0, other = 0, duplicateCounter = 0;
 		List<Integer> inputList = new ArrayList<Integer>(input);
 		// loop through collection
 		for (int i = 0; i < inputList.size(); i++) {
 			if (i == inputList.size() - 1) {
 				other = inputList.get(i);
+				summarisedResult.append(other + "");
+				break;
 			} else if (inputList.get(i + 1) - 1 == inputList.get(i)) {
 				if (count == 0) {
 					start = inputList.get(i);
@@ -40,10 +42,10 @@ public class Summarizer implements NumberRangeSummarizer {
 
 			if (count == 0) {
 				summarisedResult.append(end + ",");
-			} else if (count != 0) {
+				duplicateCounter = 0;
+			} else if (count != 0 && duplicateCounter == 0) {
 				summarisedResult.append(start + "-");
-			} else {
-				summarisedResult.append(other + "");
+				duplicateCounter += 1;
 			}
 		}
 

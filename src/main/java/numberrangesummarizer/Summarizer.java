@@ -10,7 +10,7 @@ public class Summarizer implements NumberRangeSummarizer {
 
 	// collect the input
 	public Collection<Integer> collect(String input) {
-		List<Integer> intCollection = new ArrayList<Integer>(); // using List for specialised functionality and order
+		List<Integer> intCollection = new ArrayList<>(); // using List for specialised functionality and order
 		String[] inputArray = input.split(","); // adding numbers to array using comma as delimeter
 		// convert each array element from string to int and add it to the collection
 		Arrays.stream(inputArray).forEach(str -> intCollection.add(Integer.parseInt(str)));
@@ -22,36 +22,25 @@ public class Summarizer implements NumberRangeSummarizer {
 	// get the summarized string
 	public String summarizeCollection(Collection<Integer> input) {
 		StringBuilder summarisedResult = new StringBuilder();
-		Integer start = 0, end = 0, count = 0, other = 0, duplicateCounter = 0;
-		List<Integer> inputList = new ArrayList<Integer>(input);
+		int count = 0;
+		List<Integer> inputList = new ArrayList<>(input);
 		// loop through collection
 		for (int i = 0; i < inputList.size(); i++) {
-			if (i == inputList.size() - 1) {
-				other = inputList.get(i);
-				summarisedResult.append(other + "");
+			if (i == inputList.size() - 1) { // Last element
+				summarisedResult.append(inputList.get(i));
 				break;
-			} else if (inputList.get(i + 1) - 1 == inputList.get(i)) {
-				if (count == 0) {
-					start = inputList.get(i);
+			} else if (inputList.get(i + 1) - 1 == inputList.get(i)) { // Check if can be aggregated into a range
+				if (count == 0) { // if the element is the start of the range add to stringBuilder
+					summarisedResult.append(inputList.get(i)).append("-");
 				}
 				count += 1;
-			} else {
-				end = inputList.get(i);
+			} else { // if can't be aggregated just add to stringBuilder
+				summarisedResult.append(inputList.get(i)).append(",");
 				count = 0;
-			}
-
-			if (count == 0) {
-				summarisedResult.append(end + ",");
-				duplicateCounter = 0;
-			} else if (count != 0 && duplicateCounter == 0) {
-				summarisedResult.append(start + "-");
-				duplicateCounter += 1;
 			}
 		}
 
-		String stringResult = summarisedResult.toString();
-
-		return stringResult;
+		return summarisedResult.toString();
 	}
 
 	public static void main(String[] args) {
